@@ -101,7 +101,8 @@ jobs:
       run: |
         PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
-        export ALLOW_MISSING_DEPENDENCIES=true
+        # Commenting for just test
+        # export ALLOW_MISSING_DEPENDENCIES=true
         source build/envsetup.sh
         lunch ${{ github.event.inputs.MANIFEST_TYPE }}_${{ github.event.inputs.DEVICE_NAME }}-eng 
         make clean
