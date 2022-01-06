@@ -18,11 +18,11 @@ on:
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
-        default: 'https://github.com/b-ghs/android_device_rockchip_rk3318'
+        default: 'https://github.com/amir28/android_device_rockchip_rk3318'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
-        default: 'master'
+        default: 'LUN_FILE_Change'
       DEVICE_PATH:
         description: 'DEVICE_PATH'
         required: true
