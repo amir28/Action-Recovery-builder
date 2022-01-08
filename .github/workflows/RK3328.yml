@@ -91,6 +91,8 @@ jobs:
         cd ${{ steps.pwd.outputs.pwd }}
         git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
         # MEEEEE
+        git clone https://github.com/rockchip-android/device-rockchip-common.git -b rk3328-box-7.1 ./device/rockchip/common
+        git clone https://github.com/rockchip-android/vendor-rockchip-common.git -b rk3328-box-7.1 ./vendor/rockchip/common
         ### git clone https://github.com/b-ghs/android_device_rockchip_rk3318.git device/Android/rk3318
         ### git clone https://github.com/b-ghs/android_device_rockchip_rk3318.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} device/Android/rk3318 
         ### rm -rf prebuilts/clang/host/linux-x86 && git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 prebuilts/clang/host/linux-x86 -b android-9.0.0_r61 --depth=1
@@ -98,6 +100,7 @@ jobs:
         echo "TW_USE_TOOLBOX := true" >> ${{ github.event.inputs.DEVICE_PATH }}/BoardConfig.mk
         echo "BOARD_TWRP_ENABLE := true" >> ${{ github.event.inputs.DEVICE_PATH }}/device.mk
         rm -rf bootable/recovery && git clone https://github.com/rockchip-android/TWRP -b android-9.0 --depth 1 bootable/recovery
+        
         # git clone https://github.com/TwrpBuilder/android_device_generic_twrpbuilder.git device/generic/twrpbuilder
 
     - name: Building recovery
