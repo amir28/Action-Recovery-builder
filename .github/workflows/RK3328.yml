@@ -82,6 +82,7 @@ jobs:
       run: |
         PATH=~/bin:$PATH
         cd workspace
+        # repo sync -j$(nproc --all) -f --force-sync
         repo sync -j$(nproc --all) -f --force-sync -c --no-clone-bundle
         ls -al
       
@@ -89,8 +90,9 @@ jobs:
       run: |
         PATH=~/bin:$PATH
         cd ${{ steps.pwd.outputs.pwd }}
-        git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
+        # git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
         # MEEEEE
+        git clone https://github.com/rockchip-android/device-rockchip-rk3328.git -b rk3328-box-7.1 ./device/rockchip/rk3328
         git clone https://github.com/rockchip-android/device-rockchip-common.git -b rk3328-box-7.1 ./device/rockchip/common
         git clone https://github.com/rockchip-android/vendor-rockchip-common.git -b rk3328-box-7.1 ./vendor/rockchip/common
         git clone https://github.com/rockchip-android/hardware-realtek -b rk3328-box-7.1 ./hardware/realtek
