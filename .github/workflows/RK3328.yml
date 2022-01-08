@@ -14,7 +14,8 @@ on:
       MANIFEST_BRANCH:
         description: 'LIBRARY_BRANCH'
         required: true
-        default: 'twrp-9.0'
+        # default: 'twrp-9.0'
+        default: 'twrp-5.1'
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
@@ -26,8 +27,8 @@ on:
       DEVICE_PATH:
         description: 'DEVICE_PATH'
         required: true
-        # default: 'device/rockchip/rk3328'
-        default: 'device/Android/rk3328_box'
+        default: 'device/rockchip/rk3328'
+        # default: 'device/Android/rk3328_box'
       DEVICE_NAME:
         description: 'DEVICE_NAME'
         required: true
@@ -105,7 +106,8 @@ jobs:
         cd ${{ steps.pwd.outputs.pwd }}
         export ALLOW_MISSING_DEPENDENCIES=true
         source build/envsetup.sh
-        lunch ${{ github.event.inputs.MANIFEST_TYPE }}_${{ github.event.inputs.DEVICE_NAME }}-eng 
+        #lunch ${{ github.event.inputs.MANIFEST_TYPE }}_${{ github.event.inputs.DEVICE_NAME }}-eng
+        lunch rk3328_box-eng
         make clean
         make recoveryimage -j$(nproc --all)        
       
