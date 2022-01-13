@@ -75,7 +75,7 @@ jobs:
         echo "::set-output name=pwd::$(pwd)"
         git config --global user.name "Hikaru's Action-Build-Bot"
         git config --global user.email "Android@teio.tk"
-        repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+        repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }} -m rk3328_box_pie_release.xml
         
       id: pwd
           
@@ -85,7 +85,7 @@ jobs:
         cd workspace
         # repo sync -j$(nproc --all) -f --force-sync
         mkdir -p .repo/local_manifests
-        wget https://raw.githubusercontent.com/a9rock64/manifests/default/rk3328_box_pie_release.xml -O .repo/local_manifests/rk3328_box_pie_release.xml
+        #wget https://raw.githubusercontent.com/a9rock64/manifests/default/rk3328_box_pie_release.xml -O .repo/local_manifests/rk3328_box_pie_release.xml
         repo sync -j$(nproc --all) -f --force-sync -c --no-clone-bundle
         ls -al
       
