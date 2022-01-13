@@ -76,6 +76,7 @@ jobs:
         git config --global user.name "Hikaru's Action-Build-Bot"
         git config --global user.email "Android@teio.tk"
         repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+        wget https://raw.githubusercontent.com/a9rock64/manifests/default/rk3328_box_pie_release.xml -O .repo/rk3328_box_pie_release.xml
       id: pwd
           
     - name: Repo Sync
@@ -92,10 +93,10 @@ jobs:
         cd ${{ steps.pwd.outputs.pwd }}
         # git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
         # MEEEEE
-        git clone https://github.com/rockchip-android/device-rockchip-rk3328.git -b rk3328-box-7.1 ./device/rockchip/rk3328
-        git clone https://github.com/rockchip-android/device-rockchip-common.git -b rk3328-box-7.1 ./device/rockchip/common
-        git clone https://github.com/rockchip-android/vendor-rockchip-common.git -b rk3328-box-7.1 ./vendor/rockchip/common
-        git clone https://github.com/rockchip-android/hardware-realtek -b rk3328-box-7.1 ./hardware/realtek
+        #git clone https://github.com/rockchip-android/device-rockchip-rk3328.git -b rk3328-box-7.1 ./device/rockchip/rk3328
+        #git clone https://github.com/rockchip-android/device-rockchip-common.git -b rk3328-box-7.1 ./device/rockchip/common
+        #git clone https://github.com/rockchip-android/vendor-rockchip-common.git -b rk3328-box-7.1 ./vendor/rockchip/common
+        #git clone https://github.com/rockchip-android/hardware-realtek -b rk3328-box-7.1 ./hardware/realtek
         ### git clone https://github.com/b-ghs/android_device_rockchip_rk3318.git device/Android/rk3318
         ### git clone https://github.com/b-ghs/android_device_rockchip_rk3318.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} device/Android/rk3318 
         ### rm -rf prebuilts/clang/host/linux-x86 && git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 prebuilts/clang/host/linux-x86 -b android-9.0.0_r61 --depth=1
