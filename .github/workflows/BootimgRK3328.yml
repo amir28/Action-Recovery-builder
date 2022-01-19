@@ -98,6 +98,7 @@ jobs:
         # MEEEEE
         git clone https://github.com/rockchip-android/device-rockchip-rk3328.git -b rk3328-box-7.1 ./device/rockchip/rk3328
         git clone https://github.com/rockchip-android/device-rockchip-common.git -b rk3328-box-7.1 ./device/rockchip/common
+        sed -i '307d' device/rockchip/common/BoardConfig.mk
         git clone https://github.com/rockchip-android/vendor-rockchip-common.git -b rk3328-box-7.1 ./vendor/rockchip/common
         #git clone https://github.com/rockchip-android/hardware-realtek -b rk3328-box-7.1 ./hardware/realtek
         ### git clone https://github.com/b-ghs/android_device_rockchip_rk3318.git device/Android/rk3318
