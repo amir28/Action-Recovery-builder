@@ -16,9 +16,10 @@ on:
       MANIFEST_BRANCH:
         description: 'LIBRARY_BRANCH'
         required: true
-        # default: 'default'
-        default: 'twrp-9.0'
+        # default: 'twrp-9.0'
         # default: 'twrp-5.1'
+        # default: 'default'
+        default: 'rk3328'
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
