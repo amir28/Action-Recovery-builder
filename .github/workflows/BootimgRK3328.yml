@@ -11,12 +11,13 @@ on:
         description: 'MANIFEST_URL'
         required: true
         #default: 'git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git'
-        default: 'git://github.com/a9rock64/manifests.git'
+        #default: 'git://github.com/a9rock64/manifests.git'
+        default: 'git://github.com/amir28/platform_manifest_twrp_omni.git'
       MANIFEST_BRANCH:
         description: 'LIBRARY_BRANCH'
         required: true
-        default: 'default'
-        # default: 'twrp-9.0'
+        # default: 'default'
+        default: 'twrp-9.0'
         # default: 'twrp-5.1'
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
@@ -78,7 +79,8 @@ jobs:
         git config --global user.name "Hikaru's Action-Build-Bot"
         git config --global user.email "Android@teio.tk"
         # repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
-        repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }} -m a9rock64_us.xml
+        # repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }} -m a9rock64_us.xml
+        repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }} -m RK3328.yml
         
       id: pwd
           
