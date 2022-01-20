@@ -111,7 +111,7 @@ jobs:
         ### rm -rf prebuilts/clang/host/linux-x86 && git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 prebuilts/clang/host/linux-x86 -b android-9.0.0_r61 --depth=1
         # rm -rf bootable/recovery && git clone https://github.com/omnirom/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
         echo "TW_USE_TOOLBOX := true" >> ${{ github.event.inputs.DEVICE_PATH }}/BoardConfig.mk
-        
+        echo "BOOTIMG_SUPPORT_MAGISK := true" >> ${{ github.event.inputs.DEVICE_PATH }}/BoardConfig.mk
         #rm -rf bootable/recovery && git clone https://github.com/rockchip-android/TWRP -b android-9.0 --depth 1 bootable/recovery
 
     - name: Building recovery
@@ -122,7 +122,6 @@ jobs:
         source build/envsetup.sh
         #lunch ${{ github.event.inputs.MANIFEST_TYPE }}_${{ github.event.inputs.DEVICE_NAME }}-eng
         lunch rk3328_box-userdebug
-        echo "BOOTIMG_SUPPORT_MAGISK := true" >> device/rockchip/rk3328/rk3328_box
         # echo "BOARD_TWRP_ENABLE := true" >> device/rockchip/common/device.mk
         make clean
         # make recoveryimage -j$(nproc --all)
