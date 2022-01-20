@@ -15,7 +15,8 @@ on:
       MANIFEST_BRANCH:
         description: 'LIBRARY_BRANCH'
         required: true
-        default: 'twrp-9.0'
+        default: 'default'
+        # default: 'twrp-9.0'
         # default: 'twrp-5.1'
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
@@ -97,10 +98,10 @@ jobs:
         cd ${{ steps.pwd.outputs.pwd }}
         # git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
         # MEEEEE
-        git clone https://github.com/rockchip-android/device-rockchip-rk3328.git -b rk3328-box-7.1 ./device/rockchip/rk3328
-        git clone https://github.com/rockchip-android/device-rockchip-common.git -b rk3328-box-7.1 ./device/rockchip/common
-        sed -i '307d' device/rockchip/common/BoardConfig.mk
-        git clone https://github.com/rockchip-android/vendor-rockchip-common.git -b rk3328-box-7.1 ./vendor/rockchip/common
+        #git clone https://github.com/rockchip-android/device-rockchip-rk3328.git -b rk3328-box-7.1 ./device/rockchip/rk3328
+        #git clone https://github.com/rockchip-android/device-rockchip-common.git -b rk3328-box-7.1 ./device/rockchip/common
+        #sed -i '307d' device/rockchip/common/BoardConfig.mk
+        #git clone https://github.com/rockchip-android/vendor-rockchip-common.git -b rk3328-box-7.1 ./vendor/rockchip/common
         #git clone https://github.com/rockchip-android/hardware-realtek -b rk3328-box-7.1 ./hardware/realtek
         ### git clone https://github.com/b-ghs/android_device_rockchip_rk3318.git device/Android/rk3318
         ### git clone https://github.com/b-ghs/android_device_rockchip_rk3318.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} device/Android/rk3318 
@@ -108,9 +109,7 @@ jobs:
         # rm -rf bootable/recovery && git clone https://github.com/omnirom/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
         echo "TW_USE_TOOLBOX := true" >> ${{ github.event.inputs.DEVICE_PATH }}/BoardConfig.mk
         
-        rm -rf bootable/recovery && git clone https://github.com/rockchip-android/TWRP -b android-9.0 --depth 1 bootable/recovery
-        
-        # git clone https://github.com/TwrpBuilder/android_device_generic_twrpbuilder.git device/generic/twrpbuilder
+        #rm -rf bootable/recovery && git clone https://github.com/rockchip-android/TWRP -b android-9.0 --depth 1 bootable/recovery
 
     - name: Building recovery
       run: |
@@ -121,7 +120,7 @@ jobs:
         #lunch ${{ github.event.inputs.MANIFEST_TYPE }}_${{ github.event.inputs.DEVICE_NAME }}-eng
         lunch rk3328_box-userdebug
         echo "BOOTIMG_SUPPORT_MAGISK := true" >> device/rockchip/rk3328/rk3328_box
-        echo "BOARD_TWRP_ENABLE := true" >> device/rockchip/common/device.mk
+        # echo "BOARD_TWRP_ENABLE := true" >> device/rockchip/common/device.mk
         make clean
         # make recoveryimage -j$(nproc --all)
         make bootimage
