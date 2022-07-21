@@ -132,6 +132,8 @@ jobs:
         git clone --depth=1 ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
         mkdir -p ./vendor/nokia
         git clone --depth=1 https://github.com/TheMuppets/proprietary_vendor_nokia.git -b lineage-17.1  ./vendor/nokia
+        mkdir -p ./kernel/nokia/sdm660
+        git clone --depth=1 https://github.com/LineageOS/android_kernel_nokia_sdm660.git -b lineage-17.1 ./kernel/nokia/sdm660
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Check Build Tree
