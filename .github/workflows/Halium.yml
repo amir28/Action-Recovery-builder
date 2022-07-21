@@ -42,7 +42,7 @@ on:
       BUILD_TARGET:
         description: 'BUILD_TARGET'
         required: true
-        default: 'recovery'
+        default: 'vendor'
 
 jobs:
   build:
@@ -166,7 +166,7 @@ jobs:
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
         # make clean
         # make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
-        mka vendorimage
+        mka ${{ github.event.inputs.BUILD_TARGET }}image
         
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
