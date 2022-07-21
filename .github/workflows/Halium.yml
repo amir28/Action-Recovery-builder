@@ -142,7 +142,7 @@ jobs:
     - name: Sync Device Dependencies
       run: |
         # bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildtree.outputs.value }}.dependencies
-        repo sync -j$(nproc --all) --depth=1 -c --no-clone-bundle
+        # repo sync -j$(nproc --all) --depth=1 -c --no-clone-bundle
       working-directory: ${{ steps.pwd.outputs.pwd }}
       continue-on-error: true
 
