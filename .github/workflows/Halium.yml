@@ -115,7 +115,7 @@ jobs:
         # repo sync -j$(nproc --all) --force-sync
         repo sync -j$(nproc --all) -c --no-clone-bundle
         echo "Just think it's synced"
-        du -sh .
+        du -sh *
       working-directory: workspace
       
     - name: Clone device tree
@@ -130,6 +130,8 @@ jobs:
         && github.event.inputs.COMMON_PATH != null
       run: |
         git clone --depth=1 ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
+        mkdir -p ./vendor/nokia
+        git clone --depth=1 https://github.com/TheMuppets/proprietary_vendor_nokia.git -b lineage-17.1  ./vendor/nokia
       working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: Check Build Tree
@@ -166,6 +168,7 @@ jobs:
         hybris-patches/apply-patches.sh --mb
         
         source build/envsetup.sh
+        breakfast PL2
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
         # make clean
