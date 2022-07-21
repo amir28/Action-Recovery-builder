@@ -113,7 +113,7 @@ jobs:
     - name: Repo Sync
       run: |
         # repo sync -j$(nproc --all) --force-sync
-        repo sync -j$(nproc --all) --depth=1 -c --no-clone-bundle
+        repo sync -j$(nproc --all) -c --no-clone-bundle
         echo "Just think it's synced"
       working-directory: workspace
       
