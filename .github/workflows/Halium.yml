@@ -38,7 +38,7 @@ on:
       MAKEFILE_NAME:
         description: 'MAKEFILE_NAME'
         required: true
-        default: 'PL2_file'
+        default: 'lineage_PL2'
       BUILD_TARGET:
         description: 'BUILD_TARGET'
         required: true
@@ -115,6 +115,7 @@ jobs:
         # repo sync -j$(nproc --all) --force-sync
         repo sync -j$(nproc --all) -c --no-clone-bundle
         echo "Just think it's synced"
+        du -sh .
       working-directory: workspace
       
     - name: Clone device tree
