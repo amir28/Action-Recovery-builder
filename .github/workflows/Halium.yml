@@ -113,9 +113,12 @@ jobs:
     - name: Repo Sync
       run: |
         # repo sync -j$(nproc --all) --force-sync
-        repo sync -j$(nproc --all) -c --no-clone-bundle
+        # repo sync -j$(nproc --all) -c --no-clone-bundle
+        repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
         echo "Just think it's synced"
         du -sh *
+        du -sh .*
+        
       working-directory: workspace
       
     - name: Clone device tree
@@ -175,6 +178,7 @@ jobs:
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
         # make clean
         # make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        rm -rf .repo
         mka ${{ github.event.inputs.BUILD_TARGET }}image
         
       working-directory: ${{ steps.pwd.outputs.pwd }}
