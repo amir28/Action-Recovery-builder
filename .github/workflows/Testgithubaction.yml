@@ -1,0 +1,117 @@
+name: Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      MANIFEST_URL:
+        description: 'MANIFEST_URL (if want to use SSH keys, use git@github.com:XXXXX)'
+        required: true
+        default: 'https://github.com/Halium/android'
+      MANIFEST_BRANCH:
+        description: 'MANIFEST_BRANCH'
+        required: true
+        default: 'halium-10.0'
+      DEVICE_TREE_URL:
+        description: 'DEVICE_TREE_URL'
+        required: true
+        default: 'https://github.com/LineageOS/android_device_nokia_PL2'
+      DEVICE_TREE_BRANCH:
+        description: 'DEVICE_TREE_BRANCH'
+        required: true
+        default: 'lineage-17.1'
+      DEVICE_PATH:
+        description: 'DEVICE_PATH'
+        required: true
+        default: 'device/nokia/PL2'
+      COMMON_TREE_URL:
+        description: 'COMMON_TREE_URL (if no common tree, leave blank)'
+        required: false
+        default: 'https://github.com/LineageOS/android_device_nokia_sdm660-common'
+      COMMON_PATH:
+        description: 'COMMON_PATH (if no common tree, leave blank)'
+        required: false
+        default: 'device/nokia/sdm660-common'
+      DEVICE_NAME:
+        description: 'DEVICE_NAME'
+        required: true
+        default: 'PL2'
+      MAKEFILE_NAME:
+        description: 'MAKEFILE_NAME'
+        required: true
+        default: 'lineage_PL2'
+      BUILD_TARGET:
+        description: 'BUILD_TARGET'
+        required: true
+        default: 'vendor'
+
+jobs:
+  build:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-18.04
+    # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
+    steps:
+    - name: Display Run Parameters
+      run: |
+        echo "::group::User Environment Variables"
+        echo "Manifest URL: ${{ github.event.inputs.MANIFEST_URL }}"
+        echo "Manifest Branch: ${{ github.event.inputs.MANIFEST_BRANCH }}"
+        echo "Device Tree URL: ${{ github.event.inputs.DEVICE_TREE_URL }}"
+        echo "Device Tree Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        echo "Device Path: ${{ github.event.inputs.DEVICE_PATH }}"
+        echo "Device Name: ${{ github.event.inputs.DEVICE_NAME }}"
+        echo "Makefile Name: ${{ github.event.inputs.MAKEFILE_NAME }}"
+        echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}.img"
+        echo "::endgroup::"
+ 
+    # You might want to Checkout your repo first, but not mandatory
+    - name: Check Out
+      uses: actions/checkout@v3
+    # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
+      # That's it! Now use your normal steps
+
+    - name: Prepare the environment
+      run: |
+        df -h
+        free -h
+        
+    - name: Job3
+      run: |
+        echo Job3
+
+    - name: Job4
+      run: |
+        echo Job4
+        exit 125
+      working-directory: ${{ steps.pwd.outputs.pwd }}
+
+
+    - name: Job5
+      run: |
+        echo Job5
+      working-directory: ${{ steps.pwd.outputs.pwd }}
+      continue-on-error: true
+
+    - name: Set Swap Space
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 8
+
+    - name: Job6
+      run: |
+        echo Job6
+        echo "All worked" > my-test.txt
+      working-directory: ${{ steps.pwd.outputs.pwd }}
+      
+
+    - name: uploading
+      uses: softprops/action-gh-release@v1
+      with:
+        files: my-test.txt
+        name: my-test
+        tag_name: ${{ github.run_id }}
+        body: |
+          Manifest: nothing
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
