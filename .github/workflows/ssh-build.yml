@@ -162,7 +162,7 @@ jobs:
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
         # make clean
         # make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
-      working-directory: ${{ steps.pwd.outputs.pwd }
+      working-directory: ${{ steps.pwd.outputs.pwd }}
       
     - name: SSH to Actions
       uses: P3TERX/ssh2actions@v1.0.0
