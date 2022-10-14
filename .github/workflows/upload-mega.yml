@@ -44,8 +44,12 @@ jobs:
       run: |
         wimcapture workspace workspace.wim --threads=`nproc --all`
         rm -rf workspace
-    - name: SSH to Actions
-      uses: P3TERX/ssh2actions@v1.0.0
+        filesize=$(du -k "workspace.wim" | cut -f 1)
+        echo Filesize is $filesize
+        if [ $actualsize -ge 55000000 ]; then
+          exit 126
+        fi
+
 #     - name: Upload to mega
 #       run: |
 #         mega-cmd-server &>/dev/null &
@@ -55,3 +59,17 @@ jobs:
 #         sleep 3
 #         lftp ftp://127.0.0.1:4990 -e "put workspace.wim /"
 #         mega-logout
+
+    - name: Upload to mega
+      run: |
+        mega-cmd-server &>/dev/null &
+        sleep 5
+        mega-login ${{ secrets.MEGA_USER }} ${{ secrets.MEGA_PASSWORD }}
+        mega-ftp /
+        lftp ftp://127.0.0.1:4990 -e "put workspace.wim"
+        mega-logout
+        killall -s TERM mega-cmd-server
+
+
+    - name: SSH to Actions126
+      uses: P3TERX/ssh2actions@v1.0.0
