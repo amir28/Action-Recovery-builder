@@ -22,6 +22,7 @@ jobs:
         wget https://mega.nz/linux/repo/xUbuntu_18.04/amd64/megacmd-xUbuntu_18.04_amd64.deb
         sudo apt -y install ./megacmd-xUbuntu_18.04_amd64.deb
         # sudo apt-get -f install -y
+        mkdir workspace
 
     - name: Write in folder
       run: |
