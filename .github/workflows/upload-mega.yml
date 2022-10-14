@@ -1,4 +1,4 @@
-name: Check AOSP repo size
+name: Upload mega
 
 on:
   workflow_dispatch
