@@ -44,13 +44,14 @@ jobs:
       run: |
         wimcapture workspace workspace.wim --threads=`nproc --all`
         rm -rf workspace
-        
-    - name: Upload to mega
-      run: |
-        mega-cmd-server &>/dev/null &
-        sleep 5
-        mega-login ${{ secrets.MEGA_USER }} ${{ secrets.MEGA_PASSWORD }}
-        mega-ftp &
-        sleep 3
-        lftp ftp://127.0.0.1:4990 -e "put workspace.wim /"
-        mega-logout
+    - name: SSH to Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+#     - name: Upload to mega
+#       run: |
+#         mega-cmd-server &>/dev/null &
+#         sleep 5
+#         mega-login ${{ secrets.MEGA_USER }} ${{ secrets.MEGA_PASSWORD }}
+#         mega-ftp &
+#         sleep 3
+#         lftp ftp://127.0.0.1:4990 -e "put workspace.wim /"
+#         mega-logout
