@@ -1,0 +1,55 @@
+name: Check AOSP repo size
+
+on:
+  workflow_dispatch
+
+jobs:
+  build:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-18.04
+    # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
+    steps:
+    - name: Check Out
+      uses: actions/checkout@v3
+
+    - name: Prepare the environment
+      run: |
+        sudo apt update
+        sudo apt -y upgrade
+        sudo apt -y install gperf \
+        libxml2 lzop pngcrush schedtool lzma ncftp \
+        python wget lftp wimtools
+        wget https://mega.nz/linux/repo/xUbuntu_18.04/amd64/megacmd-xUbuntu_18.04_amd64.deb
+        sudo dpkg -i megacmd-xUbuntu_18.04_amd64.deb
+        sudo apt-get -f install -y
+
+    - name: Write in folder
+      run: |
+        echo "Action" > text.txt
+        dd if=/dev/urandom of=random.txt bs=500MB count=1
+      working-directory: workspace
+
+    - name: Disk usage
+      run: |
+        echo "Df -h"
+        df -h
+        echo "Du all"
+        du -ahd1
+        echo "Du -sh ."
+        du -sh .
+      working-directory: workspace
+      
+    - name: Compress folder
+      run: |
+        wimcapture workspace workspace.wim --threads=`nproc --all`
+        rm -rf workspace
+        
+    - name: Upload to mega
+      run: |
+        mega-cmd-server &>/dev/null &
+        sleep 5
+        mega-login ${{ secrets.MEGA_USER }} ${{ secrets.MEGA_PASSWORD }}
+        mega-ftp &
+        sleep 3
+        lftp ftp://127.0.0.1:4990 -e "put workspace.wim /"
+        mega-logout
