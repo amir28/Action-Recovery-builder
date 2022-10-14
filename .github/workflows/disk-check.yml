@@ -125,7 +125,7 @@ jobs:
         repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
       working-directory: workspace
 
-     - name: Disk usage
+    - name: Disk usage
       run: |
         echo "du all"
         du -ahd1
