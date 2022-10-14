@@ -20,7 +20,7 @@ jobs:
         libxml2 lzop pngcrush schedtool lzma ncftp \
         python wget lftp wimtools
         wget https://mega.nz/linux/repo/xUbuntu_18.04/amd64/megacmd-xUbuntu_18.04_amd64.deb
-        sudo apt -y install megacmd-xUbuntu_18.04_amd64.deb
+        sudo apt -y install ./megacmd-xUbuntu_18.04_amd64.deb
         # sudo apt-get -f install -y
 
     - name: Write in folder
