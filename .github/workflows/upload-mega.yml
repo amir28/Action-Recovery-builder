@@ -46,7 +46,7 @@ jobs:
         rm -rf workspace
         filesize=$(du -k "workspace.wim" | cut -f 1)
         echo Filesize is $filesize
-        if [ $actualsize -ge 55000000 ]; then
+        if [ $filesize -ge 55000000 ]; then
           exit 126
         fi
 
@@ -71,5 +71,5 @@ jobs:
         killall -s TERM mega-cmd-server
 
 
-    - name: SSH to Actions126
-      uses: P3TERX/ssh2actions@v1.0.0
+#     - name: SSH to Actions126
+#       uses: P3TERX/ssh2actions@v1.0.0
