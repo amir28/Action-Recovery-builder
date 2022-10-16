@@ -80,9 +80,8 @@ jobs:
         libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev \
         libsdl1.2-dev libwxgtk3.0-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static \
         libstdc++-10-dev python wget lftp wimtools
-        wget https://mega.nz/linux/repo/xUbuntu_18.04/amd64/megacmd-xUbuntu_18.04_amd64.deb
-        sudo dpkg -i megacmd-xUbuntu_18.04_amd64.deb
-        sudo apt-get -f install -y
+        sudo apt -y install ./megacmd-xUbuntu_18.04_amd64.deb
+        mkdir workspace
 
 
     - name: All available space
@@ -158,18 +157,26 @@ jobs:
         echo "Du -sh ."
         du -sh .
       working-directory: ${{ steps.pwd.outputs.pwd }}
-    
+
+    - name: SSH to Actions126
+      uses: P3TERX/ssh2actions@v1.0.0
+
     - name: Compress files
       run: |
         wimcapture workspace workspace.wim --threads=`nproc --all`
         rm -rf workspace
+        filesize=$(du -k "workspace.wim" | cut -f 1)
+        echo Wim file size is $filesize
+        if [ $filesize -ge 55000000 ]; then
+          exit 126
+        fi
         
     - name: Upload to mega
       run: |
         mega-cmd-server &>/dev/null &
         sleep 5
         mega-login ${{ secrets.MEGA_USER }} ${{ secrets.MEGA_PASSWORD }}
-        mega-ftp &
-        sleep 3
-        lftp ftp://127.0.0.1:4990 -e "put workspace.wim /"
+        mega-ftp /
+        lftp ftp://127.0.0.1:4990 -e "put workspace.wim"
         mega-logout
+        killall -s TERM mega-cmd-server
