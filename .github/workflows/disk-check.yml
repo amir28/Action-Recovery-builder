@@ -98,11 +98,14 @@ jobs:
         du -sh .
       working-directory: workspace
 
-    - name: SSH to Actions126
-      uses: P3TERX/ssh2actions@v1.0.0
+#     - name: SSH to Actions126
+#       uses: P3TERX/ssh2actions@v1.0.0
 
     - name: Compress files
       run: |
+        mv workspace/prebuilts ./
+        wimcapture prebuilts prebuilts.wim --threads=`nproc --all`
+        rm -rf prebuilts
         wimcapture workspace workspace.wim --threads=`nproc --all`
         rm -rf workspace
         filesize=$(du -k "workspace.wim" | cut -f 1)
@@ -117,6 +120,7 @@ jobs:
         sleep 5
         mega-login ${{ secrets.MEGA_USER }} ${{ secrets.MEGA_PASSWORD }}
         mega-ftp /
+        lftp ftp://127.0.0.1:4990 -e "put prebuilts.wim"
         lftp ftp://127.0.0.1:4990 -e "put workspace.wim"
         mega-logout
         killall -s TERM mega-cmd-server
