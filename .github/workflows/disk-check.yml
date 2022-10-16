@@ -11,38 +11,6 @@ on:
         description: 'MANIFEST_BRANCH'
         required: true
         default: 'halium-10.0'
-      DEVICE_TREE_URL:
-        description: 'DEVICE_TREE_URL'
-        required: true
-        default: 'https://github.com/LineageOS/android_device_nokia_PL2'
-      DEVICE_TREE_BRANCH:
-        description: 'DEVICE_TREE_BRANCH'
-        required: true
-        default: 'lineage-17.1'
-      DEVICE_PATH:
-        description: 'DEVICE_PATH'
-        required: true
-        default: 'device/nokia/PL2'
-      COMMON_TREE_URL:
-        description: 'COMMON_TREE_URL (if no common tree, leave blank)'
-        required: false
-        default: 'https://github.com/LineageOS/android_device_nokia_sdm660-common'
-      COMMON_PATH:
-        description: 'COMMON_PATH (if no common tree, leave blank)'
-        required: false
-        default: 'device/nokia/sdm660-common'
-      DEVICE_NAME:
-        description: 'DEVICE_NAME'
-        required: true
-        default: 'PL2'
-      MAKEFILE_NAME:
-        description: 'MAKEFILE_NAME'
-        required: true
-        default: 'lineage_PL2'
-      BUILD_TARGET:
-        description: 'BUILD_TARGET'
-        required: true
-        default: 'vendor'
 
 jobs:
   build:
@@ -55,12 +23,6 @@ jobs:
         echo "::group::User Environment Variables"
         echo "Manifest URL: ${{ github.event.inputs.MANIFEST_URL }}"
         echo "Manifest Branch: ${{ github.event.inputs.MANIFEST_BRANCH }}"
-        echo "Device Tree URL: ${{ github.event.inputs.DEVICE_TREE_URL }}"
-        echo "Device Tree Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        echo "Device Path: ${{ github.event.inputs.DEVICE_PATH }}"
-        echo "Device Name: ${{ github.event.inputs.DEVICE_NAME }}"
-        echo "Makefile Name: ${{ github.event.inputs.MAKEFILE_NAME }}"
-        echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}.img"
         echo "::endgroup::"
  
     # You might want to Checkout your repo first, but not mandatory
@@ -134,32 +96,6 @@ jobs:
         echo "Du -sh ."
         du -sh .
       working-directory: workspace
-      
-    - name: Clone device tree
-      run: |
-        git clone --depth=1 ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
-        
-      working-directory: ${{ steps.pwd.outputs.pwd }}
-
-    - name: Clone common tree
-      if: |
-        github.event.inputs.COMMON_TREE_URL != null
-        && github.event.inputs.COMMON_PATH != null
-      run: |
-        git clone --depth=1 ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
-        mkdir -p ./vendor/nokia
-        git clone --depth=1 https://github.com/TheMuppets/proprietary_vendor_nokia.git -b lineage-17.1  ./vendor/nokia
-        mkdir -p ./kernel/nokia/sdm660
-        git clone --depth=1 https://github.com/LineageOS/android_kernel_nokia_sdm660.git -b lineage-17.1 ./kernel/nokia/sdm660
-      working-directory: ${{ steps.pwd.outputs.pwd }}
-
-    - name: disk usage 2
-      run: |
-        echo "du all"
-        du -ahd1
-        echo "Du -sh ."
-        du -sh .
-      working-directory: ${{ steps.pwd.outputs.pwd }}
 
     - name: SSH to Actions126
       uses: P3TERX/ssh2actions@v1.0.0
