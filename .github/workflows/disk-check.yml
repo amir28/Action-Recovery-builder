@@ -104,7 +104,7 @@ jobs:
     - name: Compress files
       run: |
         mv workspace/prebuilts ./
-        echo "Compressing prebuilds wim"
+        echo "Compressing prebuilts wim"
         wimcapture prebuilts prebuilts.wim --threads=`nproc --all` 1>/dev/null
         rm -rf prebuilts
         echo "Compressing workspace.wim"
@@ -116,7 +116,7 @@ jobs:
           exit 126
         fi
         ls -lh workspace.wim
-        ls -lh prebuilds.wim
+        ls -lh prebuilts.wim
 
     - name: SSH to Actions126
       uses: P3TERX/ssh2actions@v1.0.0
