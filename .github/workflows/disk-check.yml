@@ -104,11 +104,11 @@ jobs:
     - name: Compress files
       run: |
         mv workspace/prebuilts ./
-        echo "Compressing prebuilds wim"
-        wimcapture prebuilts prebuilts.wim --threads=`nproc --all` 
+        echo "Compressing prebuilds wim"1>
+        wimcapture prebuilts prebuilts.wim --threads=`nproc --all` 1>/dev/null
         rm -rf prebuilts
         echo "Compressing workspace.wim"
-        wimcapture workspace workspace.wim --threads=`nproc --all`
+        wimcapture workspace workspace.wim --threads=`nproc --all` 1>/dev/null
         rm -rf workspace
         filesize=$(du -k "workspace.wim" | cut -f 1)
         echo Wim file size is $filesize
