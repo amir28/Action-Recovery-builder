@@ -118,16 +118,20 @@ jobs:
         ls -lh workspace.wim
         ls -lh prebuilts.wim
 
-    - name: SSH to Actions126
-      uses: P3TERX/ssh2actions@v1.0.0
+#     - name: SSH to Actions126
+#       uses: P3TERX/ssh2actions@v1.0.0
 
     - name: Upload to mega
       run: |
         mega-cmd-server &>/dev/null &
         sleep 5
         mega-login ${{ secrets.MEGA_USER }} ${{ secrets.MEGA_PASSWORD }}
-        mega-ftp /
-        lftp ftp://127.0.0.1:4990 -e "put prebuilts.wim"
-        lftp ftp://127.0.0.1:4990 -e "put workspace.wim"
+        mega-put prebuilts.wim /
+        rm prebuilts.wim
+        mega-put workspace.wim /
+        rm workspace.wim
+        # mega-ftp /
+        # lftp ftp://127.0.0.1:4990 -e "put prebuilts.wim"
+        # lftp ftp://127.0.0.1:4990 -e "put workspace.wim"
         mega-logout
         killall -s TERM mega-cmd-server
